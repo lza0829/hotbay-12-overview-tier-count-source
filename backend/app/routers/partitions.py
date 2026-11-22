@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
-from app.db import db
+from app.db import db_ro
 from app.services import partitions as svc
 
 router = APIRouter(tags=["分区"])
@@ -32,7 +32,7 @@ def list_parts():
 
 @router.get("/分区/{pid}/素材段")
 def list_clips(pid: int):
-    with db() as conn:
+    with db_ro() as conn:
         return [dict(r) for r in conn.execute("SELECT * FROM clips WHERE partition_id=? ORDER BY id", (pid,)).fetchall()]
 
 

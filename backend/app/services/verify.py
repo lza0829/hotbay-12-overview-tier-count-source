@@ -1,11 +1,11 @@
 from __future__ import annotations
 import json
-from app.db import db
+from app.db import db, db_ro
 from app.services.core import now
 
 
 def inventory_list():
-    with db() as conn:
+    with db_ro() as conn:
         return [dict(r) for r in conn.execute("SELECT * FROM inventory_objects ORDER BY object_key").fetchall()]
 
 
@@ -51,5 +51,5 @@ def run_verify():
 
 
 def list_verify_runs():
-    with db() as conn:
+    with db_ro() as conn:
         return [dict(r) for r in conn.execute("SELECT * FROM verify_runs ORDER BY id DESC").fetchall()]

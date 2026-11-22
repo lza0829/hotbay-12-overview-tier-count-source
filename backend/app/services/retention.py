@@ -1,17 +1,17 @@
 from __future__ import annotations
 from datetime import date
 from fastapi import HTTPException
-from app.db import db
+from app.db import db, db_ro
 from app.services.core import now, partition_row
 
 
 def list_policies():
-    with db() as conn:
+    with db_ro() as conn:
         return [dict(r) for r in conn.execute("SELECT * FROM retention_policies ORDER BY id").fetchall()]
 
 
 def list_destroys():
-    with db() as conn:
+    with db_ro() as conn:
         rows = conn.execute(
             '''SELECT d.*, p.part_key, p.title, pol.name AS policy_name
                FROM destroy_runs d

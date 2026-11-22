@@ -1,7 +1,7 @@
 from __future__ import annotations
 from fastapi import APIRouter
 from pydantic import BaseModel
-from app.db import db
+from app.db import db, db_ro
 
 router = APIRouter(tags=["设置"])
 
@@ -12,7 +12,7 @@ class DayIn(BaseModel):
 
 @router.get("/设置")
 def get_settings():
-    with db() as conn:
+    with db_ro() as conn:
         rows = conn.execute("SELECT key, value FROM settings").fetchall()
         return {r["key"]: r["value"] for r in rows}
 

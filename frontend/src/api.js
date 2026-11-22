@@ -29,6 +29,9 @@ export const api = {
   inventory: () => req('/目录清单'),
   verifyRuns: () => req('/互证流水'),
   runVerify: () => req('/互证', { method: 'POST', body: '{}' }),
+  distributionCheck: () => req('/分布对账'),
+  // 诊断页改分布数：后端按架构整笔 403 拒绝，前端只用于展示拒因，不做任何本地改数。
+  tamperDistribution: () => req('/分布对账/改数', { method: 'POST', body: JSON.stringify({ 热档: 999 }) }),
   settings: () => req('/设置'),
   setDay: (营业日) => req('/设置/营业日', { method: 'POST', body: JSON.stringify({ 营业日 }) }),
 }

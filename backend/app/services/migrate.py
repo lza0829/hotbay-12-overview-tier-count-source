@@ -1,11 +1,11 @@
 from __future__ import annotations
 from fastapi import HTTPException
-from app.db import db
+from app.db import db, db_ro
 from app.services.core import can_migrate, now, partition_row, require_tier
 
 
 def list_jobs():
-    with db() as conn:
+    with db_ro() as conn:
         rows = conn.execute(
             '''SELECT j.*, p.part_key, p.title FROM migrate_jobs j
                JOIN partitions p ON p.id=j.partition_id ORDER BY j.id DESC'''

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from fastapi import HTTPException
-from app.db import db
+from app.db import db, db_ro
 from app.services.core import now, require_tier, vault_partition_count
 
 
@@ -17,7 +17,7 @@ def list_partitions(conn=None):
 
     if conn is not None:
         return _q(conn)
-    with db() as c:
+    with db_ro() as c:
         return _q(c)
 
 
